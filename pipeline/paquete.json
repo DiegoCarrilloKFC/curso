@@ -1,0 +1,23 @@
+{
+	"name": "paquete",
+	"properties": {
+		"activities": [
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "nombre",
+					"value": "Diego"
+				}
+			}
+		],
+		"variables": {
+			"nombre": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
