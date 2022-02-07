@@ -1,0 +1,9 @@
+{
+	"name": "adf-grupokfc-diego-carrillo",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "560b7463-d983-47a0-bd56-92336a5785eb",
+		"tenantId": "879312d9-8eca-4bfd-ba34-3c258c30c645"
+	}
+}
