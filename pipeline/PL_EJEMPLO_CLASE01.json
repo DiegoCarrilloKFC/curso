@@ -3,10 +3,14 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Configurar saludo",
-				"type": "AppendVariable",
+				"name": "Set variable1",
+				"type": "SetVariable",
 				"dependsOn": [],
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "saludo",
+					"value": "hola"
+				}
 			}
 		],
 		"variables": {
