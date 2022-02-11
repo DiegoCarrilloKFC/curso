@@ -3,13 +3,13 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Set variable1",
+				"name": "Configurar saludo",
 				"type": "SetVariable",
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"variableName": "saludo",
-					"value": "hola"
+					"value": "Hola Data Factory"
 				}
 			}
 		],
