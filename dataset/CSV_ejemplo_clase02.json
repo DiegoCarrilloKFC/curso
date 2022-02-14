@@ -1,0 +1,23 @@
+{
+	"name": "CSV_ejemplo_clase02",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_kfc_datalake",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "EjemploClase02.csv",
+				"fileSystem": "aci-diego-carrillo"
+			},
+			"columnDelimiter": ";",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
