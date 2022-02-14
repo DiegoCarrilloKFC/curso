@@ -1,0 +1,7 @@
+{
+	"name": "ir-conexion-local",
+	"properties": {
+		"type": "SelfHosted",
+		"description": "para acceder a computadora personal"
+	}
+}
