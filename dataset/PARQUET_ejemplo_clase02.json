@@ -1,0 +1,19 @@
+{
+	"name": "PARQUET_ejemplo_clase02",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_kfc_datalake",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "aci-diego-carrillo"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
