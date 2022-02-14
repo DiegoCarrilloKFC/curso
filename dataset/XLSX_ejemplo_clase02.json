@@ -1,0 +1,33 @@
+{
+	"name": "XLSX_ejemplo_clase02",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_fileSystem",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Hoja1",
+			"location": {
+				"type": "FileServerLocation",
+				"fileName": "EjemploClase2.xlsx"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "id",
+				"type": "String"
+			},
+			{
+				"name": "Nombre",
+				"type": "String"
+			},
+			{
+				"name": "Edad",
+				"type": "String"
+			}
+		]
+	}
+}
