@@ -56,7 +56,10 @@
 						"referenceName": "CSV_ESCRIBIR",
 						"type": "DatasetReference",
 						"parameters": {
-							"directorio": "FACTURA/2017/1",
+							"directorio": {
+								"value": "FACTURA/@{pipeline().parameters.anio}/@{pipeline().parameters.mes}",
+								"type": "Expression"
+							},
 							"nombreArchivo": "factura.csv"
 						}
 					}
