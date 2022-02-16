@@ -1,0 +1,17 @@
+{
+	"name": "ls_sql_local",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=True;data source=localhost\\SQLEXPRESS;initial catalog=DC",
+			"userName": "kfc\\diego.carrillo",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI4YWQ4MTVmOC05YjE4LTRkMmUtYjg0NS1mYjM3YzAxYmMyZjQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "ir-conexion-local",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
