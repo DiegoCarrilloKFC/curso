@@ -60,11 +60,11 @@
 								"waitOnCompletion": true,
 								"parameters": {
 									"anio": {
-										"value": "@item().anio",
+										"value": "@item().anioCorte",
 										"type": "Expression"
 									},
 									"mes": {
-										"value": "@item().mes",
+										"value": "@item().mesCorte",
 										"type": "Expression"
 									}
 								}
