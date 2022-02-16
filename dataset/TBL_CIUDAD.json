@@ -1,0 +1,38 @@
+{
+	"name": "TBL_CIUDAD",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_sql_local",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "CLASE03"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Ciudad",
+				"type": "varchar"
+			},
+			{
+				"name": "Provincia",
+				"type": "varchar"
+			},
+			{
+				"name": "Poblacion",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Ciudad"
+		}
+	}
+}
