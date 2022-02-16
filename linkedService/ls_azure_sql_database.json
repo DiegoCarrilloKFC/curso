@@ -1,0 +1,18 @@
+{
+	"name": "ls_azure_sql_database",
+	"properties": {
+		"description": "Conexion a la base de datos de Azure SQL Server",
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "ls_keyvault",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "connection-string"
+			}
+		}
+	}
+}
