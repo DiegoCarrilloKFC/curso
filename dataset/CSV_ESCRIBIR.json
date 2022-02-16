@@ -5,6 +5,14 @@
 			"referenceName": "ls_kfc_datalake",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"directorio": {
+				"type": "string"
+			},
+			"nombreArchivo": {
+				"type": "string"
+			}
+		},
 		"folder": {
 			"name": "CLASE03"
 		},
