@@ -60,6 +60,14 @@
 				]
 			}
 		],
+		"parameters": {
+			"anio": {
+				"type": "int"
+			},
+			"mes": {
+				"type": "int"
+			}
+		},
 		"folder": {
 			"name": "CLASE03"
 		},
