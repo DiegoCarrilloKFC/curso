@@ -5,6 +5,9 @@
 			"referenceName": "ls_fileSystem",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "CLASE02"
+		},
 		"annotations": [],
 		"type": "Excel",
 		"typeProperties": {
