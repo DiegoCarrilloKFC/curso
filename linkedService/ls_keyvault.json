@@ -1,0 +1,11 @@
+{
+	"name": "ls_keyvault",
+	"properties": {
+		"description": "conexion a keyvault",
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://kv-grupokfc-adf.vault.azure.net/"
+		}
+	}
+}
