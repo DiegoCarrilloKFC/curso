@@ -34,6 +34,12 @@
 		},
 		"ls_sql_local_properties_typeProperties_userName": {
 			"value": "kfc\\diego.carrillo"
+		},
+		"SC_CalendarizacionCargaInicial_properties_PL_CARGA_FECHAS_parameters_Desde": {
+			"value": "20220201"
+		},
+		"SC_CalendarizacionCargaInicial_properties_PL_CARGA_FECHAS_parameters_Hasta": {
+			"value": "20220208"
 		}
 	}
 }

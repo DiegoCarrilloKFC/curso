@@ -47,6 +47,14 @@
 			"type": "string",
 			"defaultValue": "kfc\\diego.carrillo"
 		},
+		"SC_CalendarizacionCargaInicial_properties_PL_CARGA_FECHAS_parameters_Desde": {
+			"type": "string",
+			"defaultValue": "20220201"
+		},
+		"SC_CalendarizacionCargaInicial_properties_PL_CARGA_FECHAS_parameters_Hasta": {
+			"type": "string",
+			"defaultValue": "20220208"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -103,6 +111,12 @@
 					},
 					"ls_sql_local_properties_typeProperties_userName": {
 						"value": "[parameters('ls_sql_local_properties_typeProperties_userName')]"
+					},
+					"SC_CalendarizacionCargaInicial_properties_PL_CARGA_FECHAS_parameters_Desde": {
+						"value": "[parameters('SC_CalendarizacionCargaInicial_properties_PL_CARGA_FECHAS_parameters_Desde')]"
+					},
+					"SC_CalendarizacionCargaInicial_properties_PL_CARGA_FECHAS_parameters_Hasta": {
+						"value": "[parameters('SC_CalendarizacionCargaInicial_properties_PL_CARGA_FECHAS_parameters_Hasta')]"
 					}
 				}
 			},

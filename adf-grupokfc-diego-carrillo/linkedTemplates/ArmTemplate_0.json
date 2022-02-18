@@ -46,6 +46,14 @@
 		"ls_sql_local_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "kfc\\diego.carrillo"
+		},
+		"SC_CalendarizacionCargaInicial_properties_PL_CARGA_FECHAS_parameters_Desde": {
+			"type": "string",
+			"defaultValue": "20220201"
+		},
+		"SC_CalendarizacionCargaInicial_properties_PL_CARGA_FECHAS_parameters_Hasta": {
+			"type": "string",
+			"defaultValue": "20220208"
 		}
 	},
 	"variables": {
@@ -852,6 +860,50 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/TBL_LEER')]",
 				"[concat(variables('factoryId'), '/pipelines/PL_CARGA_INCREMENTAL')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SC_CalendarizacionCargaInicial')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "PL_CARGA_FECHAS",
+							"type": "PipelineReference"
+						},
+						"parameters": {
+							"Desde": "[parameters('SC_CalendarizacionCargaInicial_properties_PL_CARGA_FECHAS_parameters_Desde')]",
+							"Hasta": "[parameters('SC_CalendarizacionCargaInicial_properties_PL_CARGA_FECHAS_parameters_Hasta')]"
+						}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Month",
+						"interval": 15,
+						"startTime": "2022-02-18T16:20:00",
+						"timeZone": "SA Pacific Standard Time",
+						"schedule": {
+							"minutes": [
+								42
+							],
+							"hours": [
+								16
+							],
+							"monthDays": [
+								18
+							]
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/PL_CARGA_FECHAS')]"
 			]
 		}
 	]
