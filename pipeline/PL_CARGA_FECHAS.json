@@ -74,6 +74,14 @@
 				}
 			}
 		],
+		"parameters": {
+			"Desde": {
+				"type": "string"
+			},
+			"Hasta": {
+				"type": "string"
+			}
+		},
 		"folder": {
 			"name": "CLASE03"
 		},
