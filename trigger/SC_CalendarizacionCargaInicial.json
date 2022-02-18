@@ -1,0 +1,28 @@
+{
+	"name": "SC_CalendarizacionCargaInicial",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Month",
+				"interval": 15,
+				"startTime": "2022-02-18T16:20:00",
+				"timeZone": "SA Pacific Standard Time",
+				"schedule": {
+					"minutes": [
+						35
+					],
+					"hours": [
+						16
+					],
+					"monthDays": [
+						18
+					]
+				}
+			}
+		}
+	}
+}
