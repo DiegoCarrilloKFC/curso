@@ -15,15 +15,35 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'ls_fileSystem'"
 		},
+		"ls_sql_local_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ls_sql_local'"
+		},
+		"ls_sql_local_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'ls_sql_local'"
+		},
+		"ls_keyvault_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://kv-grupokfc-adf.vault.azure.net/"
+		},
 		"ls_kfc_datalake_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://dlsgrupokfcadf.dfs.core.windows.net"
+		},
+		"ls_azure_sql_database_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "connection-string"
 		},
 		"ls_fileSystem_properties_typeProperties_host": {
 			"type": "string",
 			"defaultValue": "C:\\Users\\diego.carrillo\\datafactory\\"
 		},
 		"ls_fileSystem_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "kfc\\diego.carrillo"
+		},
+		"ls_sql_local_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "kfc\\diego.carrillo"
 		}
@@ -66,6 +86,20 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ls_keyvault')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "conexion a keyvault",
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('ls_keyvault_properties_typeProperties_baseUrl')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ls_kfc_datalake')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -95,6 +129,52 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/CSV_ESCRIBIR')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_kfc_datalake",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"directorio": {
+						"type": "string"
+					},
+					"nombreArchivo": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "CLASE03"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().nombreArchivo",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@dataset().directorio",
+							"type": "Expression"
+						},
+						"fileSystem": "aci-diego-carrillo"
+					},
+					"columnDelimiter": ";",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_kfc_datalake')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/CSV_ejemplo_clase02')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -102,6 +182,9 @@
 				"linkedServiceName": {
 					"referenceName": "ls_kfc_datalake",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "CLASE02"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -131,6 +214,9 @@
 					"referenceName": "ls_kfc_datalake",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "CLASE02"
+				},
 				"annotations": [],
 				"type": "Parquet",
 				"typeProperties": {
@@ -144,6 +230,29 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/ls_kfc_datalake')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_azure_sql_database')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Conexion a la base de datos de Azure SQL Server",
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "ls_keyvault",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "[parameters('ls_azure_sql_database_properties_typeProperties_connectionString_secretName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_keyvault')]"
 			]
 		},
 		{
@@ -172,6 +281,115 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ls_sql_local')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('ls_sql_local_connectionString')]",
+					"userName": "[parameters('ls_sql_local_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('ls_sql_local_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "ir-conexion-local",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/ir-conexion-local')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/TBL_CIUDAD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_sql_local",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "CLASE03"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Ciudad",
+						"type": "varchar"
+					},
+					{
+						"name": "Provincia",
+						"type": "varchar"
+					},
+					{
+						"name": "Poblacion",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Ciudad"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_sql_local')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/TBL_CatalogoCopiaNube')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_azure_sql_database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "CLASE03"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "DiegoCarrilloCatalogo"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_azure_sql_database')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/TBL_LEER')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_azure_sql_database",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_azure_sql_database')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/XLSX_ejemplo_clase02')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -179,6 +397,9 @@
 				"linkedServiceName": {
 					"referenceName": "ls_fileSystem",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "CLASE02"
 				},
 				"annotations": [],
 				"type": "Excel",
@@ -207,6 +428,172 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/ls_fileSystem')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_CARGA_INCREMENTAL')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "SELECT[idFactura]\n      ,[idCliente]\n      ,[idEmpleado]\n      ,[fechaFactura]\n      ,[subtotal]\n      ,[impuestos]\n  FROM [dbo].[Factura]\n  WHERE YEAR([fechaFactura]) = @{pipeline().parameters.anio} AND MONTH([fechaFactura])=@{pipeline().parameters.mes}",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "TBL_LEER",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "CSV_ESCRIBIR",
+								"type": "DatasetReference",
+								"parameters": {
+									"directorio": {
+										"value": "FACTURA/@{pipeline().parameters.anio}/@{pipeline().parameters.mes}",
+										"type": "Expression"
+									},
+									"nombreArchivo": "factura.csv"
+								}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"anio": {
+						"type": "string",
+						"defaultValue": "2017"
+					},
+					"mes": {
+						"type": "string",
+						"defaultValue": "2"
+					}
+				},
+				"folder": {
+					"name": "CLASE03"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/TBL_LEER')]",
+				"[concat(variables('factoryId'), '/datasets/CSV_ESCRIBIR')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_COPIA_DATOS_A_NUBE')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"tableOption": "autoCreate",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "TBL_CIUDAD",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "TBL_CatalogoCopiaNube",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "CLASE03"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/TBL_CIUDAD')]",
+				"[concat(variables('factoryId'), '/datasets/TBL_CatalogoCopiaNube')]"
 			]
 		},
 		{
@@ -361,6 +748,110 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/XLSX_ejemplo_clase02')]",
 				"[concat(variables('factoryId'), '/datasets/PARQUET_ejemplo_clase02')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_CARGA_FECHAS')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Lookup1",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "DECLARE @MinDate DATE = '@{pipeline().parameters.Desde}',\n\t\t@MaxDate DATE = '@{pipeline().parameters.Hasta}';\n\nSELECT CONVERT(varchar,fechaCorte,23) AS fechaCorte, MONTH(fechaCorte) as mesCorte, YEAR(fechaCorte) as anioCorte\nFROM\n(\n\tSELECT \n\tTOP(DATEDIFF(MONTH, @MinDesde,@MaxHasta)+1)\n\tfechaCorte= EOMONTH(DATEADD(MONTH,ROW_NUMBER() OVER (ORDER BY a.object_id)-1,@MinDate))\n\tFROM sys.all_objects a\n\tCROSS JOIN sys.all_objects b\n)fechas\n\nORDER BY fechaCorte;\n",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "TBL_LEER",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Lookup1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@array(activity('Lookup1').output.value)",
+								"type": "Expression"
+							},
+							"isSequential": true,
+							"activities": [
+								{
+									"name": "Execute Pipeline1",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "PL_CARGA_INCREMENTAL",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"anio": {
+												"value": "@item().anioCorte",
+												"type": "Expression"
+											},
+											"mes": {
+												"value": "@item().mesCorte",
+												"type": "Expression"
+											}
+										}
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"Desde": {
+						"type": "string"
+					},
+					"Hasta": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "CLASE03"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/TBL_LEER')]",
+				"[concat(variables('factoryId'), '/pipelines/PL_CARGA_INCREMENTAL')]"
 			]
 		}
 	]

@@ -15,6 +15,18 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ls_kfc_datalake'"
 		},
+		"ls_sql_local_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ls_sql_local'"
+		},
+		"ls_sql_local_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'ls_sql_local'"
+		},
+		"ls_azure_sql_database_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "connection-string"
+		},
 		"ls_fileSystem_properties_typeProperties_host": {
 			"type": "string",
 			"defaultValue": "C:\\Users\\diego.carrillo\\datafactory\\"
@@ -23,9 +35,17 @@
 			"type": "string",
 			"defaultValue": "kfc\\diego.carrillo"
 		},
+		"ls_keyvault_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://kv-grupokfc-adf.vault.azure.net/"
+		},
 		"ls_kfc_datalake_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://dlsgrupokfcadf.dfs.core.windows.net"
+		},
+		"ls_sql_local_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "kfc\\diego.carrillo"
 		},
 		"containerUri": {
 			"type": "string",
@@ -60,14 +80,29 @@
 					"ls_fileSystem_password": {
 						"value": "[parameters('ls_fileSystem_password')]"
 					},
+					"ls_sql_local_connectionString": {
+						"value": "[parameters('ls_sql_local_connectionString')]"
+					},
+					"ls_sql_local_password": {
+						"value": "[parameters('ls_sql_local_password')]"
+					},
+					"ls_keyvault_properties_typeProperties_baseUrl": {
+						"value": "[parameters('ls_keyvault_properties_typeProperties_baseUrl')]"
+					},
 					"ls_kfc_datalake_properties_typeProperties_url": {
 						"value": "[parameters('ls_kfc_datalake_properties_typeProperties_url')]"
+					},
+					"ls_azure_sql_database_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('ls_azure_sql_database_properties_typeProperties_connectionString_secretName')]"
 					},
 					"ls_fileSystem_properties_typeProperties_host": {
 						"value": "[parameters('ls_fileSystem_properties_typeProperties_host')]"
 					},
 					"ls_fileSystem_properties_typeProperties_userId": {
 						"value": "[parameters('ls_fileSystem_properties_typeProperties_userId')]"
+					},
+					"ls_sql_local_properties_typeProperties_userName": {
+						"value": "[parameters('ls_sql_local_properties_typeProperties_userName')]"
 					}
 				}
 			},

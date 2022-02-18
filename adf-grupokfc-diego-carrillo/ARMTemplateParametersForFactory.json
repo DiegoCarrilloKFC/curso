@@ -11,14 +11,29 @@
 		"ls_kfc_datalake_accountKey": {
 			"value": ""
 		},
+		"ls_sql_local_connectionString": {
+			"value": ""
+		},
+		"ls_sql_local_password": {
+			"value": ""
+		},
+		"ls_azure_sql_database_properties_typeProperties_connectionString_secretName": {
+			"value": "connection-string"
+		},
 		"ls_fileSystem_properties_typeProperties_host": {
 			"value": "C:\\Users\\diego.carrillo\\datafactory\\"
 		},
 		"ls_fileSystem_properties_typeProperties_userId": {
 			"value": "kfc\\diego.carrillo"
 		},
+		"ls_keyvault_properties_typeProperties_baseUrl": {
+			"value": "https://kv-grupokfc-adf.vault.azure.net/"
+		},
 		"ls_kfc_datalake_properties_typeProperties_url": {
 			"value": "https://dlsgrupokfcadf.dfs.core.windows.net"
+		},
+		"ls_sql_local_properties_typeProperties_userName": {
+			"value": "kfc\\diego.carrillo"
 		}
 	}
 }
