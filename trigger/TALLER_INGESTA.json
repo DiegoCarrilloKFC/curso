@@ -1,0 +1,26 @@
+{
+	"name": "TALLER_INGESTA",
+	"properties": {
+		"description": "Carga  a las 23h00 todo los dias",
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2022-02-21T22:13:00",
+				"timeZone": "SA Pacific Standard Time",
+				"schedule": {
+					"minutes": [
+						0
+					],
+					"hours": [
+						23
+					]
+				}
+			}
+		}
+	}
+}
