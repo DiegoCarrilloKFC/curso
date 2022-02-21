@@ -125,7 +125,7 @@
 												"type": "DatasetReference",
 												"parameters": {
 													"directorio": {
-														"value": "@concat('Taller/',item().Esquema,'/',item().TipoTabla)",
+														"value": "@concat('Taller/',item().Esquema,'/',item().Tabla)",
 														"type": "Expression"
 													},
 													"nombreArchivo": {
