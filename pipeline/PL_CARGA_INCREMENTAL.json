@@ -3,8 +3,8 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
-				"type": "Copy",
+				"name": "Lookup1",
+				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "7.00:00:00",
@@ -17,53 +17,16 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": {
-							"value": "SELECT[idFactura]\n      ,[idCliente]\n      ,[idEmpleado]\n      ,[fechaFactura]\n      ,[subtotal]\n      ,[impuestos]\n  FROM [dbo].[Factura]\n  WHERE YEAR([fechaFactura]) = @{pipeline().parameters.anio} AND MONTH([fechaFactura])=@{pipeline().parameters.mes}",
-							"type": "Expression"
-						},
+						"sqlReaderQuery": "SELECT [idIngesta]\n      ,[esquema]\n      ,[tabla]\n      ,[consulta]\n      ,[tipoTabla]\n  FROM [par].[CatIngesta]",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
-					"sink": {
-						"type": "DelimitedTextSink",
-						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings"
-						},
-						"formatSettings": {
-							"type": "DelimitedTextWriteSettings",
-							"quoteAllText": true,
-							"fileExtension": ".txt"
-						}
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
-						}
-					}
-				},
-				"inputs": [
-					{
+					"dataset": {
 						"referenceName": "TBL_LEER",
 						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "CSV_ESCRIBIR",
-						"type": "DatasetReference",
-						"parameters": {
-							"directorio": {
-								"value": "FACTURA/@{pipeline().parameters.anio}/@{pipeline().parameters.mes}",
-								"type": "Expression"
-							},
-							"nombreArchivo": "factura.csv"
-						}
-					}
-				]
+					},
+					"firstRowOnly": false
+				}
 			}
 		],
 		"parameters": {
