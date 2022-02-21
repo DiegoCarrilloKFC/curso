@@ -54,7 +54,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@startswith(item().TipoTabla,variables('TipoTabla'))",
+									"value": "@startswith(item().TipoTabla,'sotck')",
 									"type": "Expression"
 								},
 								"ifFalseActivities": [
@@ -74,7 +74,7 @@
 											"source": {
 												"type": "AzureSqlSource",
 												"sqlReaderQuery": {
-													"value": "@item().Consulta\n",
+													"value": "@replace(item().Consulta,'{{fechaCorte}}',pipeline().parameters.FechaCorte)",
 													"type": "Expression"
 												},
 												"queryTimeout": "02:00:00",
