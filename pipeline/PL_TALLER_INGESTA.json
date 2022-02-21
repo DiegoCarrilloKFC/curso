@@ -143,6 +143,12 @@
 				}
 			}
 		],
+		"parameters": {
+			"FechaCorte": {
+				"type": "string",
+				"defaultValue": "20220115"
+			}
+		},
 		"variables": {
 			"TipoTabla": {
 				"type": "String",
