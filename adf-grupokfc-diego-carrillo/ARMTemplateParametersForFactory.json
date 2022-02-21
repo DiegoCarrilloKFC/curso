@@ -40,6 +40,9 @@
 		},
 		"SC_CalendarizacionCargaInicial_properties_PL_CARGA_FECHAS_parameters_Hasta": {
 			"value": "20220208"
+		},
+		"TALLER_INGESTA_properties_PL_TALLER_INGESTA_parameters_FechaCorte": {
+			"value": "20221220"
 		}
 	}
 }

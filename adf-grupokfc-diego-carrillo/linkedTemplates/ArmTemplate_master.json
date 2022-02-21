@@ -55,6 +55,10 @@
 			"type": "string",
 			"defaultValue": "20220208"
 		},
+		"TALLER_INGESTA_properties_PL_TALLER_INGESTA_parameters_FechaCorte": {
+			"type": "string",
+			"defaultValue": "20221220"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI de la cuenta de almacenamiento que contiene las plantillas de ARM vinculadas."
@@ -129,6 +133,9 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"TALLER_INGESTA_properties_PL_TALLER_INGESTA_parameters_FechaCorte": {
+						"value": "[parameters('TALLER_INGESTA_properties_PL_TALLER_INGESTA_parameters_FechaCorte')]"
 					},
 					"SC_CalendarizacionCargaInicial_properties_PL_CARGA_FECHAS_parameters_Desde": {
 						"value": "[parameters('SC_CalendarizacionCargaInicial_properties_PL_CARGA_FECHAS_parameters_Desde')]"
