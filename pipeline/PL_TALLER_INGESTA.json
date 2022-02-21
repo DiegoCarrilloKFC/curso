@@ -202,7 +202,7 @@
 		"parameters": {
 			"FechaCorte": {
 				"type": "string",
-				"defaultValue": "20220115"
+				"defaultValue": "20171231"
 			}
 		},
 		"variables": {
