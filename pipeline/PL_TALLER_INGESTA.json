@@ -54,7 +54,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@startswith(item().TipoTabla,'sotck')",
+									"value": "@startswith(item().TipoTabla,variables('TipoTabla'))",
 									"type": "Expression"
 								},
 								"ifFalseActivities": [
