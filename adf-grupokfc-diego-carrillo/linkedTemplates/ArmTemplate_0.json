@@ -129,6 +129,35 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/TALLER_INGESTA')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Carga  a las 23h00 todo los dias",
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Day",
+						"interval": 1,
+						"startTime": "2022-02-21T22:13:00",
+						"timeZone": "SA Pacific Standard Time",
+						"schedule": {
+							"minutes": [
+								0
+							],
+							"hours": [
+								23
+							]
+						}
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/CSV_ESCRIBIR')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -945,110 +974,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/TBL_LEER')]",
 				"[concat(variables('factoryId'), '/datasets/CSV_ESCRIBIR')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/PL_CARGA_FECHAS')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Lookup1",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": {
-									"value": "DECLARE @MinDate DATE = '@{pipeline().parameters.Desde}',\n\t\t@MaxDate DATE = '@{pipeline().parameters.Hasta}';\n\nSELECT CONVERT(varchar,fechaCorte,23) AS fechaCorte, MONTH(fechaCorte) as mesCorte, YEAR(fechaCorte) as anioCorte\nFROM\n(\n\tSELECT \n\tTOP(DATEDIFF(MONTH, @MinDesde,@MaxHasta)+1)\n\tfechaCorte= EOMONTH(DATEADD(MONTH,ROW_NUMBER() OVER (ORDER BY a.object_id)-1,@MinDate))\n\tFROM sys.all_objects a\n\tCROSS JOIN sys.all_objects b\n)fechas\n\nORDER BY fechaCorte;\n",
-									"type": "Expression"
-								},
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "TBL_LEER",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"firstRowOnly": false
-						}
-					},
-					{
-						"name": "ForEach1",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "Lookup1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@array(activity('Lookup1').output.value)",
-								"type": "Expression"
-							},
-							"isSequential": true,
-							"activities": [
-								{
-									"name": "Execute Pipeline1",
-									"type": "ExecutePipeline",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"pipeline": {
-											"referenceName": "PL_CARGA_INCREMENTAL",
-											"type": "PipelineReference"
-										},
-										"waitOnCompletion": true,
-										"parameters": {
-											"anio": {
-												"value": "@item().anioCorte",
-												"type": "Expression"
-											},
-											"mes": {
-												"value": "@item().mesCorte",
-												"type": "Expression"
-											}
-										}
-									}
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"Desde": {
-						"type": "string"
-					},
-					"Hasta": {
-						"type": "string"
-					}
-				},
-				"folder": {
-					"name": "CLASE03"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/TBL_LEER')]",
-				"[concat(variables('factoryId'), '/pipelines/PL_CARGA_INCREMENTAL')]"
 			]
 		}
 	]
