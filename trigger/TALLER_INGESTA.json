@@ -3,7 +3,7 @@
 	"properties": {
 		"description": "Carga  a las 23h00 todo los dias",
 		"annotations": [],
-		"runtimeState": "Stopped",
+		"runtimeState": "Started",
 		"pipelines": [],
 		"type": "ScheduleTrigger",
 		"typeProperties": {
