@@ -51,7 +51,19 @@
 								"expression": {
 									"value": "@startswith(item().TipoTabla,variables('TipoTabla'))",
 									"type": "Expression"
-								}
+								},
+								"ifTrueActivities": [
+									{
+										"name": "Set variable1",
+										"type": "SetVariable",
+										"dependsOn": [],
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "TipoTabla",
+											"value": "aa"
+										}
+									}
+								]
 							}
 						}
 					]
