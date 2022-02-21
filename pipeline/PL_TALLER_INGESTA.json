@@ -124,7 +124,10 @@
 												"referenceName": "CSV_ESCRIBIR",
 												"type": "DatasetReference",
 												"parameters": {
-													"directorio": "TALLER",
+													"directorio": {
+														"value": "@concat('Taller/',item().Esquema,'/',item().TipoTabla)",
+														"type": "Expression"
+													},
 													"nombreArchivo": "ESQUEMA"
 												}
 											}
