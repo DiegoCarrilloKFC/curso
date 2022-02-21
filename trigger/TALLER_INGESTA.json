@@ -4,7 +4,17 @@
 		"description": "Carga  a las 23h00 todo los dias",
 		"annotations": [],
 		"runtimeState": "Started",
-		"pipelines": [],
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "PL_TALLER_INGESTA",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"FechaCorte": "20221220"
+				}
+			}
+		],
 		"type": "ScheduleTrigger",
 		"typeProperties": {
 			"recurrence": {
