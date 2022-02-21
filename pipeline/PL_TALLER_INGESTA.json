@@ -128,7 +128,10 @@
 														"value": "@concat('Taller/',item().Esquema,'/',item().TipoTabla)",
 														"type": "Expression"
 													},
-													"nombreArchivo": "ESQUEMA"
+													"nombreArchivo": {
+														"value": "@concat(item().Tabla,'.csv')",
+														"type": "Expression"
+													}
 												}
 											}
 										]
