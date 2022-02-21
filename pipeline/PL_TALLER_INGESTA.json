@@ -46,12 +46,24 @@
 							"name": "If Condition1",
 							"type": "IfCondition",
 							"dependsOn": [],
-							"userProperties": []
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@startswith(item().TipoTabla,variables('TipoTabla'))",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
 			}
 		],
+		"variables": {
+			"TipoTabla": {
+				"type": "String",
+				"defaultValue": "stock"
+			}
+		},
 		"folder": {
 			"name": "TALLER_PRACTICO"
 		},
